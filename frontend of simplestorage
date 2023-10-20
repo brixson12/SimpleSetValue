@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SimpleStorage DApp</title>
+</head>
+<body>
+    <h1>SimpleStorage DApp</h1>
+    <p>Stored Data: <span id="storedData"></span></p>
+    <input type="number" id="newValue" placeholder="Enter a new value">
+    <button onclick="setValue()">Set Value</button>
+    <button onclick="getValue()">Get Value</button>
+
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script>
+        // Connect to the Ethereum network
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // Handle the case where the user is not using a web3-enabled browser
+            alert("Please install a web3-enabled browser like MetaMask.");
+        }
+
+        // Contract address and ABI
+        const contractAddress = 'YOUR_CONTRACT_ADDRESS'; // Replace with your actual contract address
+        const contractABI = [
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "get",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "set",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "storedData",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+
+        const simpleStorage = new web3.eth.Contract(contractABI, contractAddress);
+
+        function setValue() {
+            const newValue = document.getElementById("newValue").value;
+            simpleStorage.methods.set(newValue).send({ from: web3.eth.defaultAccount })
+                .then(receipt => {
+                    console.log("Transaction receipt:", receipt);
+                });
+        }
+
+        function getValue() {
+            simpleStorage.methods.get().call()
+                .then(result => {
+                    document.getElementById("storedData").textContent = result;
+                });
+        }
+    </script>
+</body>
+</html>
