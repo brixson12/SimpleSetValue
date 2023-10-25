@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SimpleSetValue Frontend</title>
+</head>
+<body>
+    <h1>SimpleSetValue Frontend</h1>
+    <p>Stored Value: <span id="storedValue"></span></p>
+    <p>Stored String: <span id="stringValue"></span></p>
+    <label for="newValue">New Value:</label>
+    <input type="number" id="newValue">
+    <button onclick="setUintValue()">Set Uint Value</button>
+    <br>
+    <label for="newString">New String:</label>
+    <input type="text" id="newString">
+    <button onclick="setStringValue()">Set String Value</button>
+    <br>
+    <button onclick="getValues()">Get Values</button>
+
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script>
+        var web3 = new Web3(Web3.givenProvider);
+        var contractAddress = "YOUR_CONTRACT_ADDRESS"; 
+        var simpleStorageContract = new web3.eth.Contract([
+            {
+                "constant": false,
+                "inputs": [{"name": "_value", "type": "uint256"}],
+                "name": "setUintValue",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [{"name": "_value", "type": "string"}],
+                "name": "setStringValue",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "getValues",
+                "outputs": [{"name": "", "type": "uint256"}, {"name": "", "type": "string"}],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ], contractAddress);
+
+        async function updateUI() {
+            var [storedValue, stringValue] = await simpleStorageContract.methods.getValues().call();
+            document.getElementById("storedValue").textContent = storedValue;
+            document.getElementById("stringValue").textContent = stringValue;
+        }
+
+        async function setUintValue() {
+            var newValue = document.getElementById("newValue").value;
+            await simpleStorageContract.methods.setUintValue(newValue).send({ from: web3.eth.defaultAccount });
+            updateUI();
+        }
+
+        async function setStringValue() {
+            var newString = document.getElementById("newString").value;
+            await simpleStorageContract.methods.setStringValue(newString).send({ from: web3.eth.defaultAccount });
+            updateUI();
+        }
+
+        async function getValues() {
+            updateUI();
+        }
+
+        window.addEventListener('load', async () => {
+            await window.ethereum.enable();
+            web3.eth.defaultAccount = (await web3.eth.getAccounts())[0];
+            updateUI();
+        });
+    </script>
+</body>
+</html>
