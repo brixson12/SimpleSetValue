@@ -1,51 +1,42 @@
-# SimpleStorage Smart Contract
+# SimpleStorage Smart Contract and Frontend
 
-This is a simple smart contract written in Solidity that demonstrates basic storage and retrieval of data. The contract allows you to set and get a single unsigned integer value.
+This project demonstrates a simple Ethereum smart contract called `SimpleSetValue`, along with a basic HTML and JavaScript frontend for interacting with the contract and displaying the values stored in it.
 
-## Smart Contract Details
+## Smart Contract (SimpleSetValue.sol)
 
-- **Contract Name:** SimpleStorage
-- **Compiler Version:** Solidity 0.8.0
-- **License:** MIT
+The smart contract, `SimpleSetValue`, is written in Solidity and includes three main functions:
 
-## Functions
+1. `setUintValue(uint256 _value)`: This function allows you to set a new unsigned integer value in the contract.
 
-1. `set(uint256 _value)`
-   - This function allows you to set a new unsigned integer value in the contract's storage.
+2. `setStringValue(string memory _value)`: This function enables you to set a new string value in the contract.
 
-2. `get() view returns (uint256)`
-   - This function allows you to read and retrieve the currently stored unsigned integer value from the contract's storage.
+3. `getValues()`: This function retrieves both the stored unsigned integer and string values from the contract.
 
-## Usage
+### Deploy the Contract
 
-To use this smart contract, you can follow these steps:
+You can deploy the `SimpleSetValue` contract to an Ethereum testnet or a local development blockchain using tools like Remix, Hardhat, or Truffle. Make sure to take note of the contract address once it's deployed.
 
-1. Deploy the contract on an Ethereum blockchain, such as the Ethereum mainnet, testnet, or a local development environment.
+## Frontend (index.html)
 
-2. Use a DApp (Decentralized Application) or Ethereum wallet to interact with the contract. You can call the `set` function to set a new value, and the `get` function to read the stored value.
+The frontend provides a basic user interface for interacting with the `SimpleStorage` contract:
 
-## Example Interaction
+- View the stored unsigned integer and string values.
+- Set a new unsigned integer value.
+- Set a new string value.
 
-Here's a simple example of how to interact with the contract using Remix (a Solidity IDE):
+### Getting Started
 
-1. Copy the contract code from `SimpleStorage.sol`.
+1. Replace `"YOUR_CONTRACT_ADDRESS"` in the `index.html` file with the actual address of your deployed `SimpleSetValue` contract.
 
-2. Open Remix at [https://remix.ethereum.org/](https://remix.ethereum.org).
+2. Host the `index.html` file on a web server or open it in a web3-enabled browser with MetaMask or another Ethereum wallet extension installed.
 
-3. Create a new file named `SimpleStorage.sol` and paste the contract code.
-
-4. Compile and deploy the contract using Remix's development environment.
-
-5. Interact with the contract by calling the `set` function to set a value and the `get` function to retrieve the stored value.
+3. You can then interact with the contract by setting and retrieving values from the UI.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Author
+## Acknowledgments
 
-- Brixson
-
-Feel free to modify and enhance this README as needed for your project. Don't forget to replace `[Your Name]` with your actual name or the author's name.
-
- 
+- Solidity: https://soliditylang.org/
+- web3.js: https://github.com/ethereum/web3.js/
